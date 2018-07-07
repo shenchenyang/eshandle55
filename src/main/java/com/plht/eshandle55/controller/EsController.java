@@ -26,6 +26,7 @@ public class EsController {
     public void indexExpData(@RequestBody String body)  {
         try {
             esService.indexExpData(body);
+            System.out.println("exp数据入库成功！");
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -34,6 +35,7 @@ public class EsController {
     public void indexCountData(@RequestBody String body) {
         try {
             esService.indexCountData(body);
+            System.out.println("count数据入库成功！");
         }catch (Exception e){
             e.printStackTrace();
         }
