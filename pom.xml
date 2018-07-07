@@ -5,7 +5,7 @@
 
     <groupId>com.plht</groupId>
     <artifactId>eshandle55</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1</version>
     <packaging>jar</packaging>
 
     <name>eshandle55</name>
