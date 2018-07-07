@@ -1,6 +1,11 @@
 package com.plht.eshandle55.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.plht.eshandle55.model.Exp;
+import com.plht.eshandle55.model.ExpParams;
 import com.plht.eshandle55.service.EsService;
+import com.plht.eshandle55.service.SearchService;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +19,8 @@ import java.text.ParseException;
 public class EsController {
     @Resource
     public EsService esService;
+    @Resource
+    public SearchService searchService;
 
     @PostMapping("index/receive")
     public void indexExpData(@RequestBody String body) throws ParseException {
@@ -22,5 +29,11 @@ public class EsController {
     @PostMapping("index/count")
     public void indexCountData(@RequestBody String body) throws ParseException {
         esService.indexCountData(body);
+    }
+
+    @PostMapping("expData/get")
+    public Page<Exp> getExpDataByCondition(@RequestBody String body) throws ParseException {
+        ExpParams params = JSON.parseObject(body,ExpParams.class);
+        return searchService.getExps(params);
     }
 }

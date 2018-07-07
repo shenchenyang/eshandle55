@@ -1,5 +1,6 @@
 package com.plht.eshandle55;
 
+import com.plht.eshandle55.model.ExpParams;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,14 +16,12 @@ import org.springframework.web.client.RestTemplate;
 
 import java.nio.charset.StandardCharsets;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
+
 public class Eshandle55ApplicationTests {
 
     private RestTemplate restTemplate = new RestTemplate();
 
-    @Autowired
-    private ExpSearchRepository expSearchRepository;
+
 
     @Test
     public void testIndexExp(){
@@ -32,4 +31,28 @@ public class Eshandle55ApplicationTests {
         ResponseEntity<String> response=restTemplate.exchange("http://localhost:8081/api/index/receive", HttpMethod.POST,entity,String.class);
     }
 
+    @Test
+    public void testIndexCount(){
+        String str ="{\"SIMCARD_NR\":\"331004210011\",\"DATA_TAKING_DATE\":\"2017/5/4 9:00:00\",\"Exp_Sucess_Count\":1,\"ADMINISTRATION_ZONING\":\"331004\",\"WELL_DBK\":\"331004210011\",\"Rec_Count\":1,\"TableName\":\"TB_Rec_Count\",\"ID\":\"0e9a7dd7-ea6f-49c1-a33d-12f084de6ac9\",\"Supplier\":\"九恒水环\",\"Exp_Fail_Count\":0}";
+        restTemplate.getMessageConverters().set(1, new StringHttpMessageConverter(StandardCharsets.UTF_8));
+        HttpEntity entity = new HttpEntity(str);
+        ResponseEntity<String> response=restTemplate.exchange("http://localhost:8081/api/index/count", HttpMethod.POST,entity,String.class);
+    }
+
+    @Test
+    public void testSearchExp(){
+        ExpParams params = new ExpParams();
+        params.setPageIndex(1);
+        params.setPageSize(10);
+//        params.setSelType("统一编号");
+//        params.setSelNeirong("650109211310");
+        params.setStartTime("2016/07/07 00:00:00");
+        params.setEndTime("2018/07/07 23:59:59");
+        params.setCode("0");
+        params.setChart(false);
+        restTemplate.getMessageConverters().set(1, new StringHttpMessageConverter(StandardCharsets.UTF_8));
+        HttpEntity entity = new HttpEntity(params);
+        ResponseEntity<String> response=restTemplate.exchange("http://localhost:8081/api/expData/get", HttpMethod.POST,entity,String.class);
+        System.out.println(response.getBody());
+    }
 }

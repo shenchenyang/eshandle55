@@ -15,17 +15,18 @@ public class Count {
     private String TableName;
     @Id
     private String id;
-    private String ID;
+    private String c_ID;
     private String Supplier;
     private Integer Exp_Sucess_Count;
     private Integer Rec_Count;
     private Integer Exp_Fail_Count;
-    public String getID() {
-        return ID;
+
+    public String getC_ID() {
+        return c_ID;
     }
 
-    public void setID(String ID) {
-        this.ID = ID;
+    public void setC_ID(String c_ID) {
+        this.c_ID = c_ID;
     }
 
     public String getSIMCARD_NR() {

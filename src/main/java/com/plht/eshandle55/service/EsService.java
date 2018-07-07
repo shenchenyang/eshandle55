@@ -74,9 +74,9 @@ public class EsService {
         Count data = new Count();
         JSONObject obj = JSON.parseObject(jsonData);
         data.setADMINISTRATION_ZONING(obj.getString("ADMINISTRATION_ZONING"));
-        data.setDATA_TAKING_DATE(data2Long(obj.getString("ADMINISTRATION_ZONING")));
+        data.setDATA_TAKING_DATE(data2Long(obj.getString("DATA_TAKING_DATE")));
         data.setExp_Fail_Count(obj.getInteger("Exp_Fail_Count"));
-        data.setID(obj.getString("ID"));
+        data.setC_ID(obj.getString("ID"));
         data.setRec_Count(obj.getInteger("Rec_Count"));
         data.setSIMCARD_NR(obj.getString("SIMCARD_NR"));
         data.setSupplier(obj.getString("Supplier"));
