@@ -18,22 +18,36 @@ import java.text.ParseException;
 @RequestMapping("api")
 public class EsController {
     @Resource
-    public EsService esService;
+    private EsService esService;
     @Resource
-    public SearchService searchService;
+    private SearchService searchService;
 
     @PostMapping("index/receive")
-    public void indexExpData(@RequestBody String body) throws ParseException {
-        esService.indexExpData(body);
+    public void indexExpData(@RequestBody String body)  {
+        try {
+            esService.indexExpData(body);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
     @PostMapping("index/count")
-    public void indexCountData(@RequestBody String body) throws ParseException {
-        esService.indexCountData(body);
+    public void indexCountData(@RequestBody String body) {
+        try {
+            esService.indexCountData(body);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     @PostMapping("expData/get")
-    public Page<Exp> getExpDataByCondition(@RequestBody String body) throws ParseException {
-        ExpParams params = JSON.parseObject(body,ExpParams.class);
-        return searchService.getExps(params);
+    public Page<Exp> getExpDataByCondition(@RequestBody String body) {
+        Page<Exp> page= null;
+        try {
+            ExpParams params = JSON.parseObject(body,ExpParams.class);
+            page=searchService.getExps(params);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return page;
     }
 }
