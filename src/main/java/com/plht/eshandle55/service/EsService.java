@@ -89,6 +89,9 @@ public class EsService {
 
 
     private Long data2Long(String date){
+        if (date.equals("")){
+            return null;
+        }
         Long time = null;
         try {
             time = sdf.parse(date).getTime();
