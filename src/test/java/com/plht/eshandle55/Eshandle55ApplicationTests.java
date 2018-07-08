@@ -1,5 +1,6 @@
 package com.plht.eshandle55;
 
+import com.plht.eshandle55.model.CountByDateParams;
 import com.plht.eshandle55.model.ExpParams;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -53,6 +54,21 @@ public class Eshandle55ApplicationTests {
         restTemplate.getMessageConverters().set(1, new StringHttpMessageConverter(StandardCharsets.UTF_8));
         HttpEntity entity = new HttpEntity(params);
         ResponseEntity<String> response=restTemplate.exchange("http://localhost:8081/api/expData/get", HttpMethod.POST,entity,String.class);
+        System.out.println(response.getBody());
+    }
+
+    @Test
+    public void testSearchCount1(){
+        CountByDateParams params = new CountByDateParams();
+//		params.setWellDbk("310115210060");
+        params.setCode("0");
+        params.setTime("2019/5/4 9:00:00");
+//		params.setSupplier("中科光大");
+        params.setPageSize(10);
+        params.setPageIndex(167);
+        restTemplate.getMessageConverters().set(1, new StringHttpMessageConverter(StandardCharsets.UTF_8));
+        HttpEntity entity = new HttpEntity(params);
+        ResponseEntity<String> response=restTemplate.exchange("http://localhost:8081/api/countData/date", HttpMethod.POST,entity,String.class);
         System.out.println(response.getBody());
     }
 }

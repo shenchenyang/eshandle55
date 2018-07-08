@@ -4,4 +4,4 @@ spring:
       cluster-name: cl-kfv1hrw0
       cluster-nodes: 172.101.0.84:9300,172.101.0.82:9300,172.101.0.78:9300
 server:
-  port: 8080
+  port: 8081
