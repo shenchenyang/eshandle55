@@ -3,9 +3,8 @@ package com.plht.eshandle55.service;
 
 import com.alibaba.fastjson.JSON;
 import com.plht.eshandle55.dao.ExpDao;
-import com.plht.eshandle55.model.Exp;
-import com.plht.eshandle55.model.ExpParams;
-import com.plht.eshandle55.model.TypeData;
+import com.plht.eshandle55.dao.RawDao;
+import com.plht.eshandle55.model.*;
 import org.apache.commons.lang.StringUtils;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.index.query.*;
@@ -26,6 +25,8 @@ public class SearchService {
     private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
     @Resource
     private ExpDao expDao;
+    @Resource
+    private RawDao rawDao;
 
     public Page<Exp> getExps(ExpParams expParams) throws ParseException {
         Date start = sdf.parse(expParams.getStartTime());
@@ -49,24 +50,22 @@ public class SearchService {
         RangeQueryBuilder timeRange = QueryBuilders
                 .rangeQuery("dataTakingDate").from(start.getTime()).to(end.getTime());
         QueryBuilder qb2 = null;
-        BoolQueryBuilder boolQueryBuilder =QueryBuilders.boolQuery();
+        BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
         boolQueryBuilder.must(timeRange);
-        if (!code.equals("0")){
+        if (!code.equals("0")) {
             PrefixQueryBuilder codeMatch = QueryBuilders.prefixQuery("aDMINISTRATION_ZONING", handleCode(code));
             boolQueryBuilder.must(codeMatch);
         }
 
-        if (!StringUtils.isEmpty(SelType)){
+        if (!StringUtils.isEmpty(SelType)) {
             WildcardQueryBuilder queryParam = QueryBuilders
                     .wildcardQuery(SelType, SelNeirong);
             boolQueryBuilder.must(queryParam);
         }
-        qb2=boolQueryBuilder;
+        qb2 = boolQueryBuilder;
         SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
         sourceBuilder.query(qb2);
-        System.out.println(sourceBuilder.toString());
-
-        Page<Exp> exps = expDao.search(qb2,new PageRequest(expParams.getPageIndex()-1,expParams.getPageSize()));
+        Page<Exp> exps = expDao.search(qb2, new PageRequest(expParams.getPageIndex() - 1, expParams.getPageSize()));
 
         List<Exp> expDatas = exps.getContent();
 
@@ -87,10 +86,46 @@ public class SearchService {
     }
 
 
+    public Page<Raw> getRaws(RawParams params) throws ParseException {
+        Date start = sdf.parse(params.getStartTime());
+        Date end = sdf.parse(params.getEndTime());
+        String code = params.getCode();
+        String SelType = formtString(params.getSelType());
+        String SelNeirong = params.getSelNeirong();
+        QueryBuilder qb2 = null;
+        BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
+
+
+        RangeQueryBuilder timeRange = QueryBuilders
+                .rangeQuery("receiveDate").from(start.getTime()).to(end.getTime());
+        boolQueryBuilder.must(timeRange);
+        if (!code.equals("0")) {
+            PrefixQueryBuilder codeMatch = QueryBuilders.prefixQuery("aDMINISTRATION_ZONING", handleCode(code));
+            boolQueryBuilder.must(codeMatch);
+        }
+
+        if (!org.springframework.util.StringUtils.isEmpty(SelType)) {
+            WildcardQueryBuilder queryParam = QueryBuilders
+                    .wildcardQuery(SelType, SelNeirong);
+            boolQueryBuilder.must(queryParam);
+        }
+
+        qb2 = boolQueryBuilder;
+        SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
+        sourceBuilder.query(qb2);
+        Page<Raw> raws = rawDao.search(qb2, new PageRequest(params.getPageIndex() - 1, params.getPageSize()));
+
+        return raws;
+    }
+
+
+
+
     public String handleCode(String code) {
         String pre = code.substring(0, 2);
         return pre;
     }
+
     private String formtString(String var) {
         if (var == null) {
             return null;

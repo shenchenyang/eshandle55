@@ -3,6 +3,8 @@ package com.plht.eshandle55.controller;
 import com.alibaba.fastjson.JSON;
 import com.plht.eshandle55.model.Exp;
 import com.plht.eshandle55.model.ExpParams;
+import com.plht.eshandle55.model.Raw;
+import com.plht.eshandle55.model.RawParams;
 import com.plht.eshandle55.service.EsService;
 import com.plht.eshandle55.service.SearchService;
 import org.springframework.data.domain.Page;
@@ -40,6 +42,17 @@ public class EsController {
             e.printStackTrace();
         }
     }
+    @PostMapping("rawData/get")
+    public Page<Raw> getRawDataByCondition(@RequestBody String body) throws ParseException {
+        Page<Raw> page= null;
+        try {
+            RawParams params = JSON.parseObject(body,RawParams.class);
+            page=searchService.getRaws(params);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return page;
+    }
 
     @PostMapping("expData/get")
     public Page<Exp> getExpDataByCondition(@RequestBody String body) {
@@ -52,4 +65,6 @@ public class EsController {
         }
         return page;
     }
+
+
 }
