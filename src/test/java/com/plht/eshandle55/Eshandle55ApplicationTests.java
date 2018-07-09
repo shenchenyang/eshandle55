@@ -53,7 +53,7 @@ public class Eshandle55ApplicationTests {
         params.setChart(false);
         restTemplate.getMessageConverters().set(1, new StringHttpMessageConverter(StandardCharsets.UTF_8));
         HttpEntity entity = new HttpEntity(params);
-        ResponseEntity<String> response=restTemplate.exchange("http://localhost:8081/api/expData/get", HttpMethod.POST,entity,String.class);
+        ResponseEntity<String> response=restTemplate.exchange("http://localhost:8080/api/expData/get", HttpMethod.POST,entity,String.class);
         System.out.println(response.getBody());
     }
 

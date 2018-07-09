@@ -53,15 +53,15 @@ public class EsController {
     }
 
     @PostMapping("expData/get")
-    public List<Exp> getExpDataByCondition(@RequestBody String body) {
-        List<Exp> page= null;
+    public String getExpDataByCondition(@RequestBody String body) {
+       String  str= null;
         try {
             ExpParams params = JSON.parseObject(body,ExpParams.class);
-            page=searchService.getExps(params);
+            str = JSON.toJSONString(searchService.getExps(params));
         }catch (Exception e){
             e.printStackTrace();
         }
-        return page;
+        return str;
     }
 
     @PostMapping("countData/date")
