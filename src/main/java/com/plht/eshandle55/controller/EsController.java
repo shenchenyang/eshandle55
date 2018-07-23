@@ -76,5 +76,15 @@ public class EsController {
         return counts;
     }
 
-
+    @PostMapping("countData/area")
+    public com.plht.eshandle55.model.Page getAreaRecCountByDate(@RequestBody String body) throws ParseException {
+        com.plht.eshandle55.model.Page counts=null;
+        CountByArea countByArea = JSON.parseObject(body,CountByArea.class);
+        try {
+            counts=searchService.getCountByArea(countByArea);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return counts;
+    }
 }

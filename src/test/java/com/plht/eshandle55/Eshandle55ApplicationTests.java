@@ -1,5 +1,6 @@
 package com.plht.eshandle55;
 
+import com.plht.eshandle55.model.CountByArea;
 import com.plht.eshandle55.model.CountByDateParams;
 import com.plht.eshandle55.model.ExpParams;
 import org.junit.Test;
@@ -44,11 +45,11 @@ public class Eshandle55ApplicationTests {
     public void testSearchExp(){
         ExpParams params = new ExpParams();
         params.setPageIndex(1);
-        params.setPageSize(10);
-//        params.setSelType("统一编号");
-//        params.setSelNeirong("650109211310");
-        params.setStartTime("2016/07/07 00:00:00");
-        params.setEndTime("2018/07/07 23:59:59");
+        params.setPageSize(20);
+        params.setSelType("统一编号");
+        params.setSelNeirong("360421210222");
+        params.setStartTime("2018/06/15 00:00:00");
+        params.setEndTime("2018/06/15 23:59:59");
         params.setCode("0");
         params.setChart(false);
         restTemplate.getMessageConverters().set(1, new StringHttpMessageConverter(StandardCharsets.UTF_8));
@@ -58,17 +59,33 @@ public class Eshandle55ApplicationTests {
     }
 
     @Test
-    public void testSearchCount1(){
-        CountByDateParams params = new CountByDateParams();
-//		params.setWellDbk("310115210060");
+    public void testSearchCount2(){
+        CountByArea params = new CountByArea();
+        params.setWellDbk("360421210222");
         params.setCode("0");
-        params.setTime("2019/5/4 9:00:00");
+        params.setStart("2018/6/15 23:59:59");
+        params.setEnd("2019/6/19 23:59:59");
 //		params.setSupplier("中科光大");
         params.setPageSize(10);
-        params.setPageIndex(167);
+        params.setPageIndex(1);
         restTemplate.getMessageConverters().set(1, new StringHttpMessageConverter(StandardCharsets.UTF_8));
         HttpEntity entity = new HttpEntity(params);
-        ResponseEntity<String> response=restTemplate.exchange("http://localhost:8081/api/countData/date", HttpMethod.POST,entity,String.class);
+        ResponseEntity<String> response=restTemplate.exchange("http://localhost:8080/api/countData/area", HttpMethod.POST,entity,String.class);
+        System.out.println(response.getBody());
+    }
+
+    @Test
+    public void testSearchCount1(){
+        CountByDateParams params = new CountByDateParams();
+		params.setWellDbk("360421210222");
+        params.setCode("0");
+        params.setTime("2018/6/15 23:59:59");
+//		params.setSupplier("中科光大");
+        params.setPageSize(10);
+        params.setPageIndex(1);
+        restTemplate.getMessageConverters().set(1, new StringHttpMessageConverter(StandardCharsets.UTF_8));
+        HttpEntity entity = new HttpEntity(params);
+        ResponseEntity<String> response=restTemplate.exchange("http://localhost:8080/api/countData/date", HttpMethod.POST,entity,String.class);
         System.out.println(response.getBody());
     }
 }
