@@ -36,7 +36,7 @@ public class EsController {
     public void indexExpDatas(@RequestBody String body)  {
         try {
             List<String> jsonDatas=JSON.parseArray(body,String.class);
-            esService.indexExpData(body);
+            esService.indexExpDatas(jsonDatas);
             System.out.println("exp: "+jsonDatas.size()+"数据入库成功！");
         }catch (Exception e){
             e.printStackTrace();
