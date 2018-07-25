@@ -68,9 +68,17 @@ public class EsService {
     }
 
 
+    public void indexExpDatas(List<String> jsonDatas) {
+        for (String jsonData:jsonDatas){
+            indexExpData(jsonData);
+        }
+    }
 
 
-    public void indexCountData(String jsonData){
+
+
+
+        public void indexCountData(String jsonData){
         Count data = new Count();
         JSONObject obj = JSON.parseObject(jsonData);
         data.setADMINISTRATION_ZONING(obj.getString("ADMINISTRATION_ZONING"));
@@ -87,8 +95,15 @@ public class EsService {
         countDao.save(data);
     }
 
+    public void indexCountDatas(List<String> jsonDatas){
+        for (String json:jsonDatas){
+            indexCountData(json);
+        }
+    }
 
-    private Long data2Long(String date){
+
+
+        private Long data2Long(String date){
         if (date.equals("")){
             return null;
         }

@@ -31,6 +31,30 @@ public class EsController {
             e.printStackTrace();
         }
     }
+
+    @PostMapping("index/receives")
+    public void indexExpDatas(@RequestBody String body)  {
+        try {
+            List<String> jsonDatas=JSON.parseArray(body,String.class);
+            esService.indexExpData(body);
+            System.out.println("exp: "+jsonDatas.size()+"数据入库成功！");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @PostMapping("index/counts")
+    public void indexCountDatas(@RequestBody String body) {
+        try {
+            List<String> jsonDatas=JSON.parseArray(body,String.class);
+            esService.indexCountDatas(jsonDatas);
+            System.out.println("count: "+jsonDatas.size()+"数据入库成功！");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+
     @PostMapping("index/count")
     public void indexCountData(@RequestBody String body) {
         try {
@@ -40,6 +64,10 @@ public class EsController {
             e.printStackTrace();
         }
     }
+
+
+
+
     @PostMapping("rawData/get")
     public List<Raw> getRawDataByCondition(@RequestBody String body) throws ParseException {
         List<Raw> page= null;
